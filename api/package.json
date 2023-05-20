@@ -1,0 +1,30 @@
+{
+  "name": "stormhacks23",
+  "version": "1.0.0",
+  "description": "a trip planner",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gigabite-pro/Stormhacks23.git"
+  },
+  "author": "Vaibhav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gigabite-pro/Stormhacks23/issues"
+  },
+  "homepage": "https://github.com/gigabite-pro/Stormhacks23#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
