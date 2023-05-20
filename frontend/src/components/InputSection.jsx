@@ -73,11 +73,15 @@ const InputSection = () => {
         // Submit
         if ((question + 1) === questions.length) {
             console.log(answers)
-            fetch(`http://localhost:3000/itenary/activities?location=${answers[0]["answer"]}&startDate=${answers[1]["answer"]}&endDate=${answers[1]["answer"]}&budget=${answers[1]["answer"]}`, {
-                method: 'GET'
-            }).then(async res => {
-                res = await res.json();
-                console.log(res.body)
+            fetch(`https://0e2a-209-52-88-186.ngrok-free.app/itenary/activities?location=${answers[0]["answer"]}&startDate=${answers[1]["answer"]}&endDate=${answers[2]["answer"]}&budget=${answers[3]["answer"]}`, {
+                method: 'GET',
+                mode: 'cors'
+            })
+            .then(res => {
+                res = res.json();
+            })
+            .then(jsonData => {
+                console.log(jsonData)
             })
             .catch(err => {
                 console.log(err)
