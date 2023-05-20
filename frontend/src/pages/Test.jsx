@@ -1,13 +1,12 @@
 import React from "react";
 
-import downloadICS from './components/downloadICS'
+import DownloadICS from '../components/DownloadICS'
 
 const Test = () => {
     return (
         <>
             <p>Testing page to test components</p>
-
-            <downloadICS />
+            <DownloadICS />
         </>
     )
 }

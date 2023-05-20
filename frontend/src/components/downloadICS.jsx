@@ -1,12 +1,14 @@
 import React from "react";
 
-const downloadICS = () => {
+const DownloadICS = () => {
+    function makeICS() {
+
+    }
     return (
         <>
-            <button>Download Calendar!</button>
-            <p>ssssjsj</p>
+            <button onClick={() => makeICS()}>Download Calendar!</button>
         </>
     )
 }
 
-export default downloadICS;
+export default DownloadICS;
