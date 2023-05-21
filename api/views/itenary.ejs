@@ -1,3 +1,12 @@
+<style>
+    .activity {
+        background: cyan;
+        border-radius: 20px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +14,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="../../website/css/itinerary.css">
 </head>
 <body>
     <div class="itineraryContainer">
         <% for(var i=0; i< data.itinerary.length; i++) {%>
             <div class="activity">
                 <h2><%= data.itinerary[i].activity %></h2>
-                <p>data.itinerary[i].location</p>
-                <p>data.itinerary[i].startTime</p>
+                <p><%= data.itinerary[i].location %></p>
+                <p><%=   data.itinerary[i].reviews %></p>
+                <p><%= data.itinerary[i].date %>: <%= data.itinerary[i].startTime %> - <%= data.itinerary[i].endTime %> (<%= data.itinerary[i].duration %>)</p>
+                <p>Rating: <%= data.itinerary[i].rating %></p>
+                <p>Cost: <%= data.itinerary[i].cost %></p>
             </div>
          <% } %>
         
