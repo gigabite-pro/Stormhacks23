@@ -1,3 +1,16 @@
+<style>
+    .activity {
+        background: cyan;
+        border-radius: 20px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .title {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+</style>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +18,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="../../website/css/itinerary.css">
 </head>
 <body>
-    <%= data %>
+    <div class="itineraryContainer">
+        <% let day = 1 %>
+        <% for( let i = 0; i < data.Itinerary.length-1; i++ ) { %>
+            <% if (data.Itinerary[i].Date == data.Itinerary[i+1].Date) { %>
+                <p>Day <%= day %></p>
+                <% day += 1 %>
+            <% } %>
+            <div class="activity">
+                <h1 class="title"><%= data.Itinerary[i].Activity %> - <%= data.Itinerary[i].Location %></h1>
+                <p><%=   data.Itinerary[i].Reviews %></p>
+                <p><%= data.Itinerary[i].Date %>: <%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %> (<%= data.Itinerary[i].Duration %>)</p>
+                <p>Rating: <%= data.Itinerary[i].Rating %></p>
+                <p>Cost: <%= data.Itinerary[i].Cost %></p>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>
+
+<script>
+    // console.log(<%= data %>);
+</script>
