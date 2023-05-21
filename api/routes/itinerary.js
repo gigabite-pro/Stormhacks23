@@ -2,7 +2,9 @@ const router = require('express').Router();
 const {Configuration, OpenAIApi} = require('openai');
 const axios = require('axios')
 const {isAuthorized} = require('../config/authCheck')
-const moment = require('moment')
+const moment = require('moment');
+const shortid = require('shortid');
+const Links = require('../models/Links');
 
 // ChatGPT Configuration
 const configuration = new Configuration({
@@ -113,6 +115,36 @@ router.get('/addToCalendar', isAuthorized, (req, res) => {
         })
     })
     .catch(err => console.log(err))
+})
+
+router.get('/saveLink', isAuthorized, (req, res) => {
+    const newLink = new Links({
+        shortid: shortid.generate(),
+        data: data,
+        userEmail: req.session.user.email,
+        date: moment().format('MMMM Do YYYY, h:mm:ss a')
+    })
+
+    newLink.save()
+    .then(body => {
+        res.json({
+            body: body.shortid
+        })
+    }).catch(err => console.log(err))
+})
+
+router.get('/allLinks', isAuthorized, (req, res) => {
+    Links.find({userEmail: req.session.user.email})
+    .then(docs => {
+        res.render('allLinks', {links: docs})
+    }).catch(err => console.log(err))
+})
+
+router.get('/getLink/:id', (req, res) => {
+    Links.findOne({shortid: req.params.id})
+    .then(doc => {
+        res.render('itinerary', {data: doc.data})
+    })
 })
 
 
