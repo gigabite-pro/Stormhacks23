@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const {Configuration, OpenAIApi} = require('openai');
 const axios = require('axios')
-const Users = require('../models/Users');
-const {OAuth2Client} = require('./auth')
 const moment = require('moment')
 
 // ChatGPT Configuration
@@ -16,7 +14,6 @@ let data = {}
 router.get('/form', (req, res) => {
     res.render('form')
 })
-
 
 router.post('/activities', (req, res) => {
     const {location, start, end, people, budget, interests} = req.body
@@ -142,4 +139,4 @@ router.post('/ai-chatbot', (req, res) => {
     })
 })
 
-module.exports = router;
+module.exports = {router, data};

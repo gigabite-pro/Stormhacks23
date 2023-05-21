@@ -39,28 +39,23 @@
             </div>
         <% } %>
     </div>
-
-    <button>Export Calendar</button>
-
-    <div class="ai-chatbot">
-        
-        <div class="chatbotContainer" id="chatBot" style="display:none;">
-            <div class="chatbotMessages" id="chatbotMessages">
-
-            </div>
-
-            <form class="messageInput" action="/itinerary/ai-chatbot" method="POST">
-                <input name="message" placeholder="Is Disneyland fun?"/>
-                <button type="submit">></button>
-            </form>
-        </div>
-
-        <div class="ai-chatbot-open-btn" id="open-chatbot" onclick="displayChatbot()">+</div>
-    </div>
+    <button onclick="add()">Export Calendar</button>
 </body>
 </html>
 
 <script>
+    function add() {
+        fetch('/auth/addToCalendar', {method: 'GET'})
+        .then(res => res.json)
+        .then(data => {
+            if(data.status == "success") {
+                alert("Added to Calendar")
+            } else {
+                alert("Some error occured")
+            }
+        }).catch(err => console.log(err))
+    }
+
     function displayChatbot() {
         const chatBotContainer = document.getElementById("chatBot").style.display;
         if (chatBotContainer === "none") {
@@ -70,5 +65,4 @@
             document.getElementById("chatBot").style.display = "none";
         }
     }
-    // console.log(<%= data %>);
 </script>
