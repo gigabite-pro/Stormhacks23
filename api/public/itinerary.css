@@ -1,0 +1,68 @@
+* {
+    font-family: 'Inter';
+}
+body {
+    margin: 0;
+}
+.itineraryContainer {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+.dayBox {
+    background: #C8D6D7;
+    width: 160px;
+    border-radius: 30px;
+    padding: 5px 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.activity {
+    /* background: #ccc; */
+    /* border-radius: 20px; */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-left: 2px solid black;
+}
+.title {
+    font-size: 1.2em;
+    font-weight: bold;
+    font-weight: bold;
+}
+
+.infoUl {
+    list-style-type: none;
+    padding: 0%;
+}
+
+.time {
+    background: rgba(112, 209, 203, 0.5);
+    border-radius: 20px;
+    width: 200px;
+    padding: 5px 5px;
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.stars {
+    background: #FEC000;
+    border-radius: 20px;
+    width: 150px;
+    padding: 5px 5px;
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.cost {
+    background: #A1CAA0;
+    border-radius: 20px;
+    width: 120px;
+    padding: 5px 5px;
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+}
