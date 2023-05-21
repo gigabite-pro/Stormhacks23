@@ -5,7 +5,7 @@ const session = require('express-session');
 const {isAuthorized} = require('./config/authCheck');
 const bodyParser = require("body-parser");
 const authRoute = require('./routes/auth');
-const itenaryRoute = require('./routes/itinerary');
+const itineraryRoute = require('./routes/itinerary');
 require('dotenv').config();
 
 // Middlewares
@@ -21,7 +21,8 @@ app.use(
         resave : false
     })
 )
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 
@@ -35,7 +36,7 @@ mongoose.connect(process.env.MONGO_URI,{
 
 // Routes
 app.use('/auth', authRoute);
-app.use('/itinerary', itenaryRoute);
+app.use('/itinerary', itineraryRoute);
 app.use(express.static('public'))
 
 // Home Route
