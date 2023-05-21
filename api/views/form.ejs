@@ -14,92 +14,94 @@
 
     <body>
 
-
-        <div class="split left">
-            <div class="centered">
-                <p class="title">Welcome to</p>
-                <p class="title-bold">TravoAI</p>
-
-                <p>Please complete this form to get </p>
-                <p>your personalized travel itinerary!</p>
-            </div>
-            
-          </div>
-        <div class="split right">
-            <div style="margin: 0; position:absolute; margin-top:50%;  margin-left: 50%; -ms-transform: translateX(-50%); transform: translateX(-50%); -ms-transform: translateY(-50%);
-            transform: translate(-50%, -50%); text-align: center; width: 600px;">
-          <form id="regForm" class="formContainer" action="/itinerary/activities" method="POST">
-            <div class="question">
-                <label class="questionText">1. Where will you be going?</label><br>
-                <input id="location" name="location" class="inputForm" type="text" required></input><br>
-            </div>
-
-            <div class="question">
-                <label class="questionText">2. When will you be there?</label><br>
-                <input id="start" name="start" class="inputForm" type="date"></input><br>
-            </div>
-
-            <div class="question">
-                <label class="questionText">3. When will you leave?</label><br>
-                <input id="end" name="end" class="inputForm" type="date"></input><br>
-            </div>
-
-            <div class="question">
-              <label class="questionText">4. How many people are going></label><br>
-              <input id="people" name="people" class="inputForm" type="number" required></input><br>
-            </div>
-            
-            <div class="question">
-                <label class="questionText">5. What is your group's overall budget for this trip?</label><br>
-                <input id="budget" name="budget" class="inputForm" type="number" required></input><br>
-            </div>
-
-            <div class="question">
-                <label class="questionText">6. What are everyone's interests?</label><br>
-                <select id="interests" name="interests" class="custom-select" multiple>
-                    <option value="art">Art</option>
-                    <option value="eating">Eating</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="sports">Sports</option>
-                    <option value="comic">Comics</option>
-                    <option value="reading">Reading</option>
-                    <option value="sightseeing">Sightseeing</option>
-                    <option value="photography">Photography</option>
-                    <option value="music">Music</option>
-                    <option value="technology">Technology</option>
-                    <option value="education">Education</option>
-                    <option value="outdoor-activities">Outdoor Activities</option>
-                    <option value="indoor-activities">Indoor Activities</option>
-                  </select>
-                <!-- <input id="interests" class="inputForm" type="type" required></input><br> -->
-                
-                <!-- <ul id="options">
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+              <div class="col-10 col-sm-8 col-lg-6">
+                <img src="https://www.pngall.com/wp-content/uploads/8/Vector-Travel.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Welcome to</h1>
+                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">TravoAI</h1>
+                <p class="lead">Please complete this form to get your personalized travel itinerary!</p>
+              </div>
+              <div class="col-lg-6">
+                <form id="regForm" class="formContainer" action="/itinerary/activities" method="POST">
+                    <div class="question">
+                        <label class="questionText">1. Where will you be going?</label><br>
+                        <input id="location" name="location" class="inputForm" type="text" onkeypress="return
+                        enterKeyPressed(event)"></input><br>
+                    </div>
+        
+                    <div class="question">
+                        <label class="questionText">2. When will you be there?</label><br>
+                        <input id="start" name="start" class="inputForm" type="date" onkeypress="return
+                        enterKeyPressed(event)"></input><br>
+                    </div>
+        
+                    <div class="question">
+                        <label class="questionText">3. When will you leave?</label><br>
+                        <input id="end" name="end" class="inputForm" type="date" onkeypress="return
+                        enterKeyPressed(event)"></input><br>
+                    </div>
+        
+                    <div class="question">
+                      <label class="questionText">4. How many people are going></label><br>
+                      <input id="people" name="people" class="inputForm" type="number" onkeypress="return
+                      enterKeyPressed(event)"></input><br>
+                    </div>
                     
-                </ul> -->
+                    <div class="question">
+                        <label class="questionText">5. What is your group's overall budget for this trip?</label><br>
+                        <input id="budget" name="budget" class="inputForm" type="number" onkeypress="return
+                        enterKeyPressed(event)"></input><br>
+                    </div>
+        
+                    <div class="question">
+                        <label class="questionText">6. What are everyone's interests?</label><br>
+                        <select id="interests" name="interests" class="custom-select" multiple>
+                            <option value="art">Art</option>
+                            <option value="eating">Eating</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="sports">Sports</option>
+                            <option value="comic">Comics</option>
+                            <option value="reading">Reading</option>
+                            <option value="sightseeing">Sightseeing</option>
+                            <option value="photography">Photography</option>
+                            <option value="music">Music</option>
+                            <option value="technology">Technology</option>
+                            <option value="education">Education</option>
+                            <option value="outdoor-activities">Outdoor Activities</option>
+                            <option value="indoor-activities">Indoor Activities</option>
+                          </select>
+                        <!-- <input id="interests" class="inputForm" type="type" required></input><br> -->
+                        
+                        <!-- <ul id="options">
+                            
+                        </ul> -->
+                    </div>
+        
+                    <br />
+                </form>
+        
+                <!-- <button onclick="generateInputJSON()">Submit</button> -->
+                <div style="overflow:auto; padding: 20px;">
+                    <div style="float:right;">
+                      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    </div>
+                  </div>
+                  <!-- Circles which indicates the steps of the form: -->
+                  <div style="text-align:center;">
+                    <span class="step"></span>
+                    <span class="step"></span>
+                    <span class="step"></span>
+                    <span class="step"></span>
+                    <span class="step"></span>
+                    <span class="step"></span>
+                  </div>
+        
+              </div>
             </div>
-
-            <br />
-        </form>
-
-        <!-- <button onclick="generateInputJSON()">Submit</button> -->
-        <div style="overflow:auto; padding: 20px;">
-            <div style="float:right;">
-              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-              <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-            </div>
-          </div>
-          <!-- Circles which indicates the steps of the form: -->
-          <div style="text-align:center;">
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
           </div>
 
-          </div>
-          </div>
 
           <div class="loadingContainer" id="loadingScreen" style="display:none">
             <div class="icons">
@@ -141,6 +143,19 @@
             }
         }
         // makeInterestsOption()
+
+        const input = document.getElementsByClassName("inputForm");
+        for (var i = 0; i < input.length; i++) {
+        input[i].addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            nextPrev(1);
+        }
+        });
+    }
+
 
         function generateInputJSON() {
             const answers = {
@@ -211,6 +226,7 @@ function validateForm() {
   var x, y, i, valid = true;
   x = document.getElementsByClassName("question");
   y = x[currentTab].getElementsByTagName("input");
+
   // A loop that checks every input field in the current tab:
   for (i = 0; i < y.length; i++) {
     // If a field is empty...
@@ -227,6 +243,15 @@ function validateForm() {
   }
   return valid; // return the valid status
 }
+
+function enterKeyPressed(event) {
+      if (event.keyCode == 13) {
+         nextPrev(1);
+         return true;
+      } else {
+         return false;
+      }
+   }
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
