@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="css/form.css">
+    </head>
+
+    <body>
+        <form class="formContainer">
+            <div class="question">
+                <label>Where will you be going?</label><br>
+                <input id="location" class="inputForm" type="text"></input><br>
+            </div>
+
+            <div class="question">
+                <label>When will you be staying there?</label><br>
+                <input id="start" class="inputForm" type="date"></input><br>
+            </div>
+
+            <div class="question">
+                <label>When will you be leaving?</label><br>
+                <input id="end" class="inputForm" type="date"></input><br>
+            </div>
+            
+            <div class="question">
+                <label>What is your group's overall budget for this trip?</label><br>
+                <input id="budget" class="inputForm" type="number"></input><br>
+            </div>
+
+            <br />
+        </form>
+
+        <button onclick="generateInputJSON()">Submit</button>
+    </body>
+
+    <script>
+        function generateInputJSON() {
+            const questions = {
+                "location": document.getElementById("location").value,
+                "start": document.getElementById("start").value,
+                "end": document.getElementById("end").value,
+                "budget": document.getElementById("budget").value
+            }
+
+            fetch(`https://0e2a-209-52-88-186.ngrok-free.app/itenary/activities?location=${answers[0]["answer"]}&startDate=${answers[1]["answer"]}&endDate=${answers[2]["answer"]}&budget=${answers[3]["answer"]}`, {
+                method: 'GET',
+                mode: 'cors'
+            })
+            .then(res => {
+                res = res.json();
+            })
+            .then(jsonData => {
+                console.log(jsonData)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            
+            console.log(questions)
+        }
+    </script>
+</html>
