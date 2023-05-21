@@ -75,12 +75,12 @@ body {
 
 .chatbotContainer {
     position: absolute;
-    right: 50px;
+    right: 70px;
     background: #333;
     color: #fff;
     width: 300px;
     height: 400px;
-    top: -420px;
+    top: -440px;
     border-radius: 20px;
     overflow: hidden;
 }
@@ -110,14 +110,29 @@ body {
 }
 
 .ai-chatbot-open-btn {
-    background: #100da2;
-    border-radius: 50%;
+    border-radius: 50% 50% 0% 50%;
     /* padding: 10px; */
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     text-align: center;
-    line-height: 60px;
+    line-height: 80px;
     color: white;
     font-size: 30px;
+    width: 4vw;
+    height: 4vw;
+    background-image: url('speech-bubble.gif');
+    background-position: center;
+    background-size: 70% 70%;
+    background-repeat: no-repeat;
+    box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+    margin-top: -20px;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ai-chatbot-open-btn:hover {
+    transform: scale(1.1);
 }
 
