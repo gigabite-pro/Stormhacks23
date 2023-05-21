@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const {isAuthorized} = require('./config/authCheck');
 const authRoute = require('./routes/auth');
-const {Configuration, OpenAIApi} = require('openai');
+const itenaryRoute = require('./routes/itenary');
 require('dotenv').config();
 
 // Middlewares
@@ -33,12 +33,7 @@ mongoose.connect(process.env.MONGO_URI,{
 
 // Routes
 app.use('/auth', authRoute);
-
-// ChatGPT Configuration
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(configuration);
+app.use('/itenary', itenaryRoute);
 
 // Home Route
 app.get('/', (req, res) => {
@@ -61,7 +56,7 @@ app.get('/test', (req,res) => {
     })
 })
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on the port ${PORT}`);
