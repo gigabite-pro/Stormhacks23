@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const {isAuthorized} = require('./config/authCheck');
+const bodyParser = require("body-parser");
 const authRoute = require('./routes/auth');
 const itenaryRoute = require('./routes/itenary');
 require('dotenv').config();
@@ -20,8 +21,9 @@ app.use(
         resave : false
     })
 )
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(bodyParser.json());
 
 // DB connection
 mongoose.set('strictQuery', true);

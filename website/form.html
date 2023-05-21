@@ -6,40 +6,81 @@
     </head>
 
     <body>
-        <form class="formContainer">
+        <div class="split left">
+            <div class="centered">
+                <p class="title">Welcome to</p>
+                <p class="title-bold">TravelAI</p>
+
+                <p>Please complete this form to get </p>
+                <p>your personalized travel itinerary!</p>
+            </div>
+            
+          </div>
+        <div class="split right">
+            <div style="margin: 0; position:absolute; margin-top:50%;  margin-left: 50%; -ms-transform: translateX(-50%); transform: translateX(-50%); -ms-transform: translateY(-50%);
+            transform: translate(-50%, -50%); text-align: center; width: 600px;">
+          <form id="regForm" class="formContainer">
             <div class="question">
                 <label>Where will you be going?</label><br>
-                <input id="location" class="inputForm" type="text" required></input><br>
+                <input id="location" name="location" class="inputForm" type="text" required></input><br>
             </div>
 
             <div class="question">
                 <label>When will you be staying there?</label><br>
-                <input id="start" class="inputForm" type="date" required></input><br>
+                <input id="start" name="start" class="inputForm" type="date" required></input><br>
             </div>
 
             <div class="question">
                 <label>When will you be leaving?</label><br>
-                <input id="end" class="inputForm" type="date" required></input><br>
+                <input id="end" name="end" class="inputForm" type="date" required></input><br>
             </div>
             
             <div class="question">
                 <label>What is your group's overall budget for this trip?</label><br>
-                <input id="budget" class="inputForm" type="number" required></input><br>
+                <input id="budget" name="budget" class="inputForm" type="number" required></input><br>
             </div>
 
             <div class="question">
                 <label>What are everyone's interests?</label><br>
-                <input id="interests" class="inputForm" type="type" required></input><br>
+                <select id="interests" name="interests" class="custom-select" multiple>
+                    <option value="art">Art</option>
+                    <option value="eating">Eating</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="sports">Sports</option>
+                    <option value="comic">Comics</option>
+                    <option value="reading">Reading</option>
+                  </select>
+                <!-- <input id="interests" class="inputForm" type="type" required></input><br> -->
                 
-                <ul id="options">
+                <!-- <ul id="options">
                     
-                </ul>
+                </ul> -->
             </div>
 
             <br />
         </form>
 
-        <button onclick="generateInputJSON()">Submit</button>
+        <!-- <button onclick="generateInputJSON()">Submit</button> -->
+        <div style="overflow:auto; padding: 20px;">
+            <div style="float:right;">
+              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+              <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+          </div>
+          <!-- Circles which indicates the steps of the form: -->
+          <div style="text-align:center;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          </div>
+
+          </div>
+          </div>
+
+
+       
     </body>
 
     <script>
@@ -65,7 +106,7 @@
                 optionsContainer.appendChild(option)
             }
         }
-        makeInterestsOption()
+        // makeInterestsOption()
 
         function generateInputJSON() {
             const answers = {
@@ -89,8 +130,148 @@
             // .catch(err => {
             //     console.log(err)
             // })
-            
+            fetch(`http://localhost:3000/itenary/activities?location=${answers["location"]}&startDate=${answers["start"]}&endDate=${answers["end"]}&budget=${answers["budget"]}`, {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+            .then(res => res.json())
+            .catch(err => {
+                console.log(err)
+            })
+
             console.log(answers)
         }
+
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("question");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("question");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    generateInputJSON();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("question");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+
+class CustomSelect {
+  constructor(originalSelect) {
+    this.originalSelect = originalSelect;
+    this.customSelect = document.createElement("div");
+    this.customSelect.classList.add("select");
+
+    this.originalSelect.querySelectorAll("option").forEach((optionElement) => {
+      const itemElement = document.createElement("div");
+
+      itemElement.classList.add("select__item");
+      itemElement.textContent = optionElement.textContent;
+      this.customSelect.appendChild(itemElement);
+
+      if (optionElement.selected) {
+        this._select(itemElement);
+      }
+
+      itemElement.addEventListener("click", () => {
+        if (
+          this.originalSelect.multiple &&
+          itemElement.classList.contains("select__item--selected")
+        ) {
+          this._deselect(itemElement);
+        } else {
+          this._select(itemElement);
+        }
+      });
+    });
+
+    this.originalSelect.insertAdjacentElement("afterend", this.customSelect);
+    this.originalSelect.style.display = "none";
+  }
+
+  _select(itemElement) {
+    const index = Array.from(this.customSelect.children).indexOf(itemElement);
+
+    if (!this.originalSelect.multiple) {
+      this.customSelect.querySelectorAll(".select__item").forEach((el) => {
+        el.classList.remove("select__item--selected");
+      });
+    }
+
+    this.originalSelect.querySelectorAll("option")[index].selected = true;
+    itemElement.classList.add("select__item--selected");
+  }
+
+  _deselect(itemElement) {
+    const index = Array.from(this.customSelect.children).indexOf(itemElement);
+
+    this.originalSelect.querySelectorAll("option")[index].selected = false;
+    itemElement.classList.remove("select__item--selected");
+  }
+}
+
+document.querySelectorAll(".custom-select").forEach((selectElement) => {
+  new CustomSelect(selectElement);
+});
+
     </script>
 </html>
