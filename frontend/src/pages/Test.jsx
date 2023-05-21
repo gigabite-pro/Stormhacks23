@@ -2,6 +2,7 @@ import React from "react";
 
 import DownloadICS from '../components/DownloadICS'
 import InputSection from "../components/InputSection";
+import FormSection from "../components/FormSection";
 
 const Test = () => {
     return (
@@ -10,6 +11,7 @@ const Test = () => {
             <DownloadICS />
 
             <InputSection />
+            <FormSection/>
         </>
     )
 }

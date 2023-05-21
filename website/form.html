@@ -9,22 +9,47 @@
         <form class="formContainer" action="/itenary/activities" method="POST">
             <div class="question">
                 <label>Where will you be going?</label><br>
+<<<<<<< HEAD
                 <input id="location" name="location" class="inputForm" type="text"></input><br>
+=======
+                <input id="location" class="inputForm" type="text" required></input><br>
+>>>>>>> ea91f4822058a4bf02cf9ba7f40a9b02f89d5287
             </div>
 
             <div class="question">
                 <label>When will you be staying there?</label><br>
+<<<<<<< HEAD
                 <input id="start" name="start" class="inputForm" type="date"></input><br>
+=======
+                <input id="start" class="inputForm" type="date" required></input><br>
+>>>>>>> ea91f4822058a4bf02cf9ba7f40a9b02f89d5287
             </div>
 
             <div class="question">
                 <label>When will you be leaving?</label><br>
+<<<<<<< HEAD
                 <input id="end" name="end" class="inputForm" type="date"></input><br>
+=======
+                <input id="end" class="inputForm" type="date" required></input><br>
+>>>>>>> ea91f4822058a4bf02cf9ba7f40a9b02f89d5287
             </div>
             
             <div class="question">
                 <label>What is your group's overall budget for this trip?</label><br>
+<<<<<<< HEAD
                 <input id="budget" name="budget" class="inputForm" type="number"></input><br>
+=======
+                <input id="budget" class="inputForm" type="number" required></input><br>
+            </div>
+
+            <div class="question">
+                <label>What are everyone's interests?</label><br>
+                <input id="interests" class="inputForm" type="type" required></input><br>
+                
+                <ul id="options">
+                    
+                </ul>
+>>>>>>> ea91f4822058a4bf02cf9ba7f40a9b02f89d5287
             </div>
 
             <br />
@@ -34,14 +59,40 @@
     </body>
 
     <script>
+        interests = []
+        function makeInterestsOption() {
+            const interestsInput = document.getElementById("interests");
+            const optionsContainer = document.getElementById("options");
+            const options = ["Art", "Eating", " Shopping", "Sports", "Comics", "Reading", "History", "Sightseeing", "Photography", "Music", "Technology", "Education", "Outdoor Activities", "Indoor Activities"]
+            for (let i = 0; i < options.length; i++) {
+                option = document.createElement('li');
+                option.innerHTML = options[i]
+                option.addEventListener("click", function() {
+                    if (!(interests.includes(this.innerHTML))) {
+                        interests.push(this.innerHTML)
+                    }
+                    else {
+                        interests.pop(this.innerHTML)
+                    }
+
+                    interestsInput.value = interests;
+                })
+
+                optionsContainer.appendChild(option)
+            }
+        }
+        makeInterestsOption()
+
         function generateInputJSON() {
             const answers = {
                 "location": document.getElementById("location").value,
                 "start": document.getElementById("start").value,
                 "end": document.getElementById("end").value,
-                "budget": document.getElementById("budget").value
+                "budget": document.getElementById("budget").value,
+                "interests": document.getElementById("interests").value
             }
 
+<<<<<<< HEAD
             fetch(`http://localhost:3000/itenary/activities?location=${answers["location"]}&startDate=${answers["start"]}&endDate=${answers["end"]}&budget=${answers["budget"]}`, {
                 method: 'GET',
                 mode: 'no-cors'
@@ -50,6 +101,21 @@
             .catch(err => {
                 console.log(err)
             })
+=======
+            // fetch(`https://0e2a-209-52-88-186.ngrok-free.app/itenary/activities?location=${answers[0]["answer"]}&startDate=${answers[1]["answer"]}&endDate=${answers[2]["answer"]}&budget=${answers[3]["answer"]}`, {
+            //     method: 'GET',
+            //     mode: 'cors'
+            // })
+            // .then(res => {
+            //     res = res.json();
+            // })
+            // .then(jsonData => {
+            //     console.log(jsonData)
+            // })
+            // .catch(err => {
+            //     console.log(err)
+            // })
+>>>>>>> ea91f4822058a4bf02cf9ba7f40a9b02f89d5287
             
             console.log(answers)
         }
