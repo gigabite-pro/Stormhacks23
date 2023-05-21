@@ -23,27 +23,20 @@
 </head>
 <body>
     <div class="itineraryContainer">
-        <!-- <%= let day = 1 %>
-        <%= let firstDay = data.itinerary[0].date %> -->
-        <% for(var i=0; i< data.itinerary.length; i++) {%>
-
-            <!-- <% if (firstDay !== data.itinerary[i].date) { %>
-                <%= let day += 1 %>
-                <h1>Day <%= day %></h1>
-            <% } else { %>
-                <p></p>
-            <% } %> -->
-            
+        <% let day = 1 %>
+        <% for( let i = 0; i < data.Itinerary.length-1; i++ ) { %>
+            <% if (data.Itinerary[i].Date == data.Itinerary[i+1].Date) { %>
+                <p>Day <%= day %></p>
+                <% day += 1 %>
+            <% } %>
             <div class="activity">
-                <h1 class="title"><%= data.itinerary[i].activity %> - <%= data.itinerary[i].location %></h1>
-                <p><%=   data.itinerary[i].reviews %></p>
-                <p><%= data.itinerary[i].date %>: <%= data.itinerary[i].startTime %> - <%= data.itinerary[i].endTime %> (<%= data.itinerary[i].duration %>)</p>
-                <p>Rating: <%= data.itinerary[i].rating %></p>
-                <p>Cost: <%= data.itinerary[i].cost %></p>
+                <h1 class="title"><%= data.Itinerary[i].Activity %> - <%= data.Itinerary[i].Location %></h1>
+                <p><%=   data.Itinerary[i].Reviews %></p>
+                <p><%= data.Itinerary[i].Date %>: <%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %> (<%= data.Itinerary[i].Duration %>)</p>
+                <p>Rating: <%= data.Itinerary[i].Rating %></p>
+                <p>Cost: <%= data.Itinerary[i].Cost %></p>
             </div>
-         <% } %>
-        
-        <!-- <%= data %> -->
+        <% } %>
     </div>
 </body>
 </html>
