@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const {Configuration, OpenAIApi} = require('openai');
 const axios = require('axios')
-const Users = require('../models/Users');
+const {isAuthorized} = require('../config/authCheck')
 const moment = require('moment')
 
 // ChatGPT Configuration
@@ -12,12 +12,12 @@ const openai = new OpenAIApi(configuration);
 
 let data = {}
 
-router.get('/form', (req, res) => {
+router.get('/form', isAuthorized, (req, res) => {
     res.render('form')
 })
 
 
-router.post('/activities', (req, res) => {
+router.post('/activities', isAuthorized, (req, res) => {
     const {location, start, end, people, budget, interests} = req.body
     console.log(location, start, end, people, budget, interests)
     const prompt = `I want to go for a vacation to ${location} with ${people} people from ${start} to ${end} with a budget of $${budget}. To help you find activities, here is a list of all our interests: ${interests}. Plan me an itinerary with activities and places to visit (preferably ones based off our interests) with specific dates and times. There should be multiple activities in a day. Give the answer in a JSON format with activities' loction, startTime, endTime, date, duration, cost, rating, reviews, etc. Format the JSON as:
@@ -51,7 +51,7 @@ router.post('/activities', (req, res) => {
     })
 })
 
-router.get('/', (req, res) => {
+router.get('/', isAuthorized, (req, res) => {
     // Create a map to group activities by date
     const activitiesByDate = new Map();
 
@@ -102,7 +102,7 @@ router.get('/', (req, res) => {
     res.render('itinerary', {data: data})
 })
 
-router.get('/addToCalendar', (req, res) => {
+router.get('/addToCalendar', isAuthorized, (req, res) => {
     const headers = {
         'Content-Type': 'application/json',
     }
