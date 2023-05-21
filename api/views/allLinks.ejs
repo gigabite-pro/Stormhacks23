@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <title>All Links</title>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            font-family: 'Inter';
+        }
+
+        .container{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table{
+            height: 80%;
+        }
+
+        table{
+            text-align: center;
+            width: 35vw;
+            height: 10vh;
+            border-collapse: collapse;
+            font-size: 1vw;
+            font-weight: 500;
+        }
+
+        table thead tr{
+            background-color: black;
+            text-align: center;
+            color: white;
+        }
+
+        tr:hover{
+            cursor: pointer;
+        }
+
+        td,th{
+            padding: 0.5vw;
+        }
+
+        tr:nth-child(even){
+            background-color: #81898d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Saved Itineraries</h2>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                      <th colspan="1" class="text-center">#</th>
+                      <th colspan="2" class="text-center">Id</th>
+                      <th colspan="1" class="text-center">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < links.length; i++) { %>
+                            <tr onclick="open('<%= links[i].shortid %>')">
+                                <th class="text-center"><%= i+1 %></th>
+                                <td colspan="2" class="text-center"><%= links[i].shortid %></td>
+                                <td class="text-center"><%= links[i].date %></td>
+                            </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    function open(id){
+        window.location.href = `http://localhost:3000/itinerary/getLink/${id}`;
+    }
+</script>
+</html>
