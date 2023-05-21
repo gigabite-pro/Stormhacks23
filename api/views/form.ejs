@@ -19,7 +19,7 @@
         <div class="split right">
             <div style="margin: 0; position:absolute; margin-top:50%;  margin-left: 50%; -ms-transform: translateX(-50%); transform: translateX(-50%); -ms-transform: translateY(-50%);
             transform: translate(-50%, -50%); text-align: center; width: 600px;">
-          <form id="regForm" class="formContainer" action="/itenary/activities" method="POST">
+          <form id="regForm" class="formContainer" action="/itinerary/activities" method="POST">
             <div class="question">
                 <label>Where will you be going?</label><br>
                 <input id="location" name="location" class="inputForm" type="text" required></input><br>
@@ -141,7 +141,7 @@
                 "budget": document.getElementById("budget").value
             }
 
-            fetch(`http://localhost:3000/itenary/activities?location=${answers["location"]}&startDate=${answers["start"]}&endDate=${answers["end"]}&budget=${answers["budget"]}`, {
+            fetch(`http://localhost:3000/itinerary/activities?location=${answers["location"]}&startDate=${answers["start"]}&endDate=${answers["end"]}&budget=${answers["budget"]}`, {
                 method: 'GET',
                 mode: 'no-cors'
             })

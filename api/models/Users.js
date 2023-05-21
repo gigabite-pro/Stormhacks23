@@ -13,6 +13,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    id_token: {
+        type: String,
+    },
+    access_token: {
+        type: String,
+    },
+    refresh_token: {
+        type: String,
+    },
     date: {
         type: Date,
         default: new Date,
