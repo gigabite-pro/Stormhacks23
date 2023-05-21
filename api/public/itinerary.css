@@ -82,12 +82,31 @@ body {
     height: 400px;
     top: -420px;
     border-radius: 20px;
+    overflow: hidden;
+}
+
+.chatbotMessages {
+    padding: 10px;
+    overflow-y: auto;
+    height: 300px;
 }
 
 .messageInput {
     position: absolute;
     bottom: 10px;
     left: 40px;
+}
+
+.textMessage {
+    background: #ccc;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+.userTextMessage {
+    background: #0084ff;
+    color: #fff;
 }
 
 .ai-chatbot-open-btn {
@@ -101,3 +120,4 @@ body {
     color: white;
     font-size: 30px;
 }
+
