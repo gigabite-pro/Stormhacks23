@@ -17,7 +17,22 @@ router.get('/form', (req, res) => {
 router.post('/activities', (req, res) => {
     const {location, start, end, budget} = req.body
     console.log(location, start, end, budget)
-    const prompt = `I want to go for a vacation to ${location} from ${start} to ${end} with a budget of $${budget}. Plan me an itenary with activities and places to visit with specific dates and times. There should be multiple activities in a day. Give the answer in a JSON format with activities' loction, startTime, endTime, date, duration, cost, rating, reviews, etc.`
+    const prompt = `I want to go for a vacation to ${location} from ${start} to ${end} with a budget of $${budget}. Plan me an itenary with activities and places to visit with specific dates and times. There should be multiple activities in a day. Give the answer in a JSON format with activities' loction, startTime, endTime, date, duration, cost, rating, reviews, etc. Format the JSON as:
+    {
+        "Itinerary": [
+            {
+                "Activity": "Visit Stanley Park",
+                "Location": "Stanley Park, Vancouver, BC, Canada",
+                "StartTime": "10:00 AM",
+                "EndTime": "2:00 PM",
+                "Date": "2023-05-21",
+                "Duration": "4 hours",
+                "Cost": "$0",
+                "Rating": "4.5/5",
+                "Reviews": "Beautiful park with lots of activities to do",
+            }
+        ]
+    }`
 
     openai.createCompletion({
         model: 'text-davinci-003',

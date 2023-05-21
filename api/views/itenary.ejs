@@ -5,6 +5,10 @@
         padding: 10px;
         margin-bottom: 10px;
     }
+    .title {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -19,10 +23,19 @@
 </head>
 <body>
     <div class="itineraryContainer">
+        <!-- <%= let day = 1 %>
+        <%= let firstDay = data.itinerary[0].date %> -->
         <% for(var i=0; i< data.itinerary.length; i++) {%>
+
+            <!-- <% if (firstDay !== data.itinerary[i].date) { %>
+                <%= let day += 1 %>
+                <h1>Day <%= day %></h1>
+            <% } else { %>
+                <p></p>
+            <% } %> -->
+            
             <div class="activity">
-                <h2><%= data.itinerary[i].activity %></h2>
-                <p><%= data.itinerary[i].location %></p>
+                <h1 class="title"><%= data.itinerary[i].activity %> - <%= data.itinerary[i].location %></h1>
                 <p><%=   data.itinerary[i].reviews %></p>
                 <p><%= data.itinerary[i].date %>: <%= data.itinerary[i].startTime %> - <%= data.itinerary[i].endTime %> (<%= data.itinerary[i].duration %>)</p>
                 <p>Rating: <%= data.itinerary[i].rating %></p>
