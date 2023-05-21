@@ -2,6 +2,8 @@ const router = require('express').Router();
 const axios = require('axios');
 const qs = require('qs');
 const Users = require('../models/Users');
+const { google } = require('googleapis');
+const {OAuth2} = google.auth
 require('dotenv').config()
 
 const redirectUri = process.env.REDIRECT_URI
@@ -45,24 +47,28 @@ router.get('/login', (req,res)=>{
     res.redirect(getGoogleAuthURL())
 })
 
+const OAuth2Client = new OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.REDIRECT_URI
+)
+
 router.get('/callback', async (req, res)=>{
     const code = req.query.code
 
     // getting access tokens
-    const {id_token, access_token} = await getTokens({
-        code,
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectUri: redirectUri
-    })
+    const token = await OAuth2Client.getToken(code);
+
+    console.log(token)
 
     // getting user data
-    const googleUser = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${access_token}`,{
+    const googleUser = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${token.tokens.access_token}`,{
         headers : {
-            Authorization: `Bearer ${id_token}`
+            Authorization: `Bearer ${token.tokens.id_token}`
         }
     }).then(res => res.data)
     .catch(err => console.log(err))
+
     
     Users.findOne({email: googleUser.email})
     .then((doc)=>{
@@ -76,6 +82,8 @@ router.get('/callback', async (req, res)=>{
                 name: googleUser.name,
                 email: googleUser.email,
                 pfp: googleUser.picture,
+                access_token: token.tokens.access_token,
+                refresh_token: token.tokens.refresh_token
             })
 
             newUser.save()
@@ -95,4 +103,4 @@ router.get('/logout', (req,res)=>{
     res.redirect('/')
 })
 
-module.exports = router;
+module.exports = router, OAuth2Client;

@@ -5,7 +5,7 @@ const session = require('express-session');
 const {isAuthorized} = require('./config/authCheck');
 const bodyParser = require("body-parser");
 const authRoute = require('./routes/auth');
-const itenaryRoute = require('./routes/itenary');
+const itenaryRoute = require('./routes/itinerary');
 require('dotenv').config();
 
 // Middlewares
@@ -35,7 +35,7 @@ mongoose.connect(process.env.MONGO_URI,{
 
 // Routes
 app.use('/auth', authRoute);
-app.use('/itenary', itenaryRoute);
+app.use('/itinerary', itenaryRoute);
 app.use(express.static('public'))
 
 // Home Route
