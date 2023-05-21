@@ -17,9 +17,9 @@ router.get('/form', (req, res) => {
 
 
 router.post('/activities', (req, res) => {
-    const {location, start, end, budget} = req.body
-    console.log(location, start, end, budget)
-    const prompt = `I want to go for a vacation to ${location} from ${start} to ${end} with a budget of $${budget}. Plan me an itenary with activities and places to visit with specific dates and times. There should be multiple activities in a day. Give the answer in a JSON format with activities' loction, startTime, endTime, date, duration, cost, rating, reviews, etc. Format the JSON as:
+    const {location, start, end, people, budget, interests} = req.body
+    console.log(location, start, end, people, budget, interests)
+    const prompt = `I want to go for a vacation to ${location} with ${people} people from ${start} to ${end} with a budget of $${budget}. To help you find activities, here is a list of all our interests: ${interests}. Plan me an itinerary with activities and places to visit (preferably ones based off our interests) with specific dates and times. There should be multiple activities in a day. Give the answer in a JSON format with activities' loction, startTime, endTime, date, duration, cost, rating, reviews, etc. Format the JSON as:
     {
         "Itinerary": [
             {
@@ -42,6 +42,7 @@ router.post('/activities', (req, res) => {
         max_tokens: 3000,
         temperature: 0
     }).then(response => {
+        console.log(response.data.choices[0].text)
         data = JSON.parse(response.data.choices[0].text)
         res.redirect('/itenary')
     }).catch(err => {
