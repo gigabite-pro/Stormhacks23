@@ -6,25 +6,25 @@
     </head>
 
     <body>
-        <form class="formContainer">
+        <form class="formContainer" action="/itenary/activities" method="POST">
             <div class="question">
                 <label>Where will you be going?</label><br>
-                <input id="location" class="inputForm" type="text"></input><br>
+                <input id="location" name="location" class="inputForm" type="text"></input><br>
             </div>
 
             <div class="question">
                 <label>When will you be staying there?</label><br>
-                <input id="start" class="inputForm" type="date"></input><br>
+                <input id="start" name="start" class="inputForm" type="date"></input><br>
             </div>
 
             <div class="question">
                 <label>When will you be leaving?</label><br>
-                <input id="end" class="inputForm" type="date"></input><br>
+                <input id="end" name="end" class="inputForm" type="date"></input><br>
             </div>
             
             <div class="question">
                 <label>What is your group's overall budget for this trip?</label><br>
-                <input id="budget" class="inputForm" type="number"></input><br>
+                <input id="budget" name="budget" class="inputForm" type="number"></input><br>
             </div>
 
             <br />
@@ -35,28 +35,23 @@
 
     <script>
         function generateInputJSON() {
-            const questions = {
+            const answers = {
                 "location": document.getElementById("location").value,
                 "start": document.getElementById("start").value,
                 "end": document.getElementById("end").value,
                 "budget": document.getElementById("budget").value
             }
 
-            fetch(`https://0e2a-209-52-88-186.ngrok-free.app/itenary/activities?location=${answers[0]["answer"]}&startDate=${answers[1]["answer"]}&endDate=${answers[2]["answer"]}&budget=${answers[3]["answer"]}`, {
+            fetch(`http://localhost:3000/itenary/activities?location=${answers["location"]}&startDate=${answers["start"]}&endDate=${answers["end"]}&budget=${answers["budget"]}`, {
                 method: 'GET',
-                mode: 'cors'
+                mode: 'no-cors'
             })
-            .then(res => {
-                res = res.json();
-            })
-            .then(jsonData => {
-                console.log(jsonData)
-            })
+            .then(res => res.json())
             .catch(err => {
                 console.log(err)
             })
             
-            console.log(questions)
+            console.log(answers)
         }
     </script>
 </html>
