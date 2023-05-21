@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-body {
+* {
     font-family: 'Poppins', sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
 }
 
 .inputForm {
@@ -73,6 +78,7 @@ body {
 
 .question {
     display: none;
+    flex-direction: column;
   }
 
 #regForm {
@@ -152,7 +158,7 @@ button {
     text-align: center;
     border-radius: 3px;
     background: #eeeeee;
-    transition: background 0.1s;
+    transition: 0.1s;
   }
   
   .select__item--selected {
@@ -160,3 +166,73 @@ button {
     color: #ffffff;
   }
   
+
+  @font-face {
+    font-family: 'Sofia-Pro';
+    src: url('sofiapro-light.otf');
+}
+  .loadingContainer{
+    position: absolute;
+    top:0;
+    left:0;
+    background: #fff;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.icons{
+    display: flex;
+}
+
+.icon-1{
+    width: 4vw;
+    height: 4vw;
+    background-image: url('airplane.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.icon-2{
+    width: 4vw;
+    height: 4vw;
+    background-image: url('booking.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.icon-3{
+    width: 4vw;
+    height: 4vw;
+    background-image: url('best-friends.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.icon-4{
+    width: 4vw;
+    height: 4vw;
+    background-image: url('hotel-sign.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.icon-5{
+    width: 4vw;
+    height: 4vw;
+    background-image: url('train.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.text{
+    font-size: 1.5vw;
+    font-weight: bold;
+    margin-top: 2vw;
+    font-family: 'Sofia-Pro';
+}
