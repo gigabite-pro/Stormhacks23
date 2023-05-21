@@ -5,6 +5,10 @@
         padding: 10px;
         margin-bottom: 10px;
     }
+    .title {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -19,18 +23,20 @@
 </head>
 <body>
     <div class="itineraryContainer">
-        <% for(var i=0; i< data.Itinerary.length; i++) {%>
+        <% let day = 1 %>
+        <% for( let i = 0; i < data.Itinerary.length-1; i++ ) { %>
+            <% if (data.Itinerary[i].Date == data.Itinerary[i+1].Date) { %>
+                <p>Day <%= day %></p>
+                <% day += 1 %>
+            <% } %>
             <div class="activity">
-                <h2><%= data.Itinerary[i].activity %></h2>
-                <p><%= data.Itinerary[i].location %></p>
-                <p><%=   data.Itinerary[i].reviews %></p>
-                <p><%= data.Itinerary[i].date %>: <%= data.Itinerary[i].startTime %> - <%= data.Itinerary[i].endTime %> (<%= data.Itinerary[i].duration %>)</p>
-                <p>Rating: <%= data.Itinerary[i].rating %></p>
-                <p>Cost: <%= data.Itinerary[i].cost %></p>
+                <h1 class="title"><%= data.Itinerary[i].Activity %> - <%= data.Itinerary[i].Location %></h1>
+                <p><%=   data.Itinerary[i].Reviews %></p>
+                <p><%= data.Itinerary[i].Date %>: <%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %> (<%= data.Itinerary[i].Duration %>)</p>
+                <p>Rating: <%= data.Itinerary[i].Rating %></p>
+                <p>Cost: <%= data.Itinerary[i].Cost %></p>
             </div>
-         <% } %>
-        
-        <!-- <%= data %> -->
+        <% } %>
     </div>
 </body>
 </html>

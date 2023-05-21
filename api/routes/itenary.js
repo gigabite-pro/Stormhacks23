@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const {Configuration, OpenAIApi} = require('openai');
+const axios = require('axios')
+const moment = require('moment')
 
 // ChatGPT Configuration
 const configuration = new Configuration({
@@ -7,7 +9,7 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration);
 
-let data = {};
+let data = {}
 
 router.get('/form', (req, res) => {
     res.render('form')
@@ -45,45 +47,32 @@ router.post('/activities', (req, res) => {
     }).catch(err => {
         console.log(err)
     })
-
-    // data = {
-    //     "itinerary": [
-    //         {
-    //             "activity": "Visit Stanley Park",
-    //             "location": "Stanley Park, Vancouver, BC, Canada",
-    //             "startTime": "10:00 AM",
-    //             "endTime": "12:00 PM",
-    //             "date": "2023-05-21",
-    //             "duration": "2 hours",
-    //             "cost": "$0",
-    //             "rating": "4.5/5",
-    //             "reviews": "Beautiful park with lots of activities to do"
-    //         }, 
-    //         {
-    //             "activity": "Visit Granville Island",
-    //             "location": "Granville Island, Vancouver, BC, Canada",
-    //             "startTime": "12:30 PM",
-    //             "endTime": "2:30 PM",
-    //             "date": "2023-05-21",
-    //             "duration": "2 hours",
-    //             "cost": "$0",
-    //             "rating": "4.7/5",
-    //             "reviews": "Great place to explore with lots of shops and restaurants"
-    //         }
-    //     ]
-    // }
-
-    // res.render('itenary', {data : data})
-    
 })
 
 router.get('/', (req, res) => {
-    console.log(data)
-    res.render('itenary', {data : data})
+    for (i = 0; i < data.Itinerary.length - 1; i++) {
+        if(data.Itinerary[i].Date == data.Itinerary[i+1].Date) {
+            axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${data.Itinerary[i].Location}&destination=${data.Itinerary[i+1].Location}&mode=transit&departure_time=${moment(data["Itinerary"][i]["Date"] + " " + data["Itinerary"][i]["EndTime"], 'YYYY-MM-DD hh:mm A').unix()}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
+            .then(response => {
+                const routes = response.data.routes;
+                if (routes.length > 0) {
+                const legs = routes[0].legs;
+                if (legs.length > 0) {
+                    const step = legs[0].steps.filter(step => step.travel_mode === 'TRANSIT')[0];
+                    const busNumber = step.transit_details.line.short_name;
+                    const departureTime = step.transit_details.departure_time.text;
+                    const arrivalTime = step.transit_details.arrival_time.text;
+                    console.log(`Bus ${busNumber}: Departure at ${departureTime}, Arrival at ${arrivalTime}`);
+                } else {
+                    console.log('No transit directions found.');
+                }
+                } else {
+                console.log('No routes found.');
+                }
+            })
+        }
+   }
+    res.send(data)
 })
-
-// app.get('/getBusRoutes', (req, res) => {
-
-// })
 
 module.exports = router;
