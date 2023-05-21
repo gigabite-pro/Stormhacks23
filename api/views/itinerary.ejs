@@ -55,4 +55,14 @@
             }
         }).catch(err => console.log(err))
     }
+
+    function displayChatbot() {
+        const chatBotContainer = document.getElementById("chatBot").style.display;
+        if (chatBotContainer === "none") {
+            document.getElementById("chatBot").style.display = "block";
+        }
+        else {
+            document.getElementById("chatBot").style.display = "none";
+        }
+    }
 </script>

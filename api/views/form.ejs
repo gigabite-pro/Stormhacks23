@@ -26,13 +26,18 @@
             </div>
 
             <div class="question">
-                <label>When will you be staying there?</label><br>
+                <label>When will you be there?</label><br>
                 <input id="start" name="start" class="inputForm" type="date"></input><br>
             </div>
 
             <div class="question">
-                <label>When will you be leaving?</label><br>
+                <label>When will you leave?</label><br>
                 <input id="end" name="end" class="inputForm" type="date"></input><br>
+            </div>
+
+            <div class="question">
+              <label>How many people are going></label><br>
+              <input id="people" name="people" class="inputForm" type="number" required></input><br>
             </div>
             
             <div class="question">
@@ -49,6 +54,13 @@
                     <option value="sports">Sports</option>
                     <option value="comic">Comics</option>
                     <option value="reading">Reading</option>
+                    <option value="sightseeing">Sightseeing</option>
+                    <option value="photography">Photography</option>
+                    <option value="music">Music</option>
+                    <option value="technology">Technology</option>
+                    <option value="education">Education</option>
+                    <option value="outdoor-activities">Outdoor Activities</option>
+                    <option value="indoor-activities">Indoor Activities</option>
                   </select>
                 <!-- <input id="interests" class="inputForm" type="type" required></input><br> -->
                 
@@ -69,6 +81,7 @@
           </div>
           <!-- Circles which indicates the steps of the form: -->
           <div style="text-align:center;">
+            <span class="step"></span>
             <span class="step"></span>
             <span class="step"></span>
             <span class="step"></span>
@@ -108,22 +121,13 @@
         interests = []
         function makeInterestsOption() {
             const interestsInput = document.getElementById("interests");
-            const optionsContainer = document.getElementById("options");
+            const optionsContainer = document.getElementById("interests");
             const options = ["Art", "Eating", " Shopping", "Sports", "Comics", "Reading", "History", "Sightseeing", "Photography", "Music", "Technology", "Education", "Outdoor Activities", "Indoor Activities"]
             for (let i = 0; i < options.length; i++) {
-                option = document.createElement('li');
+                option = document.createElement('option');
                 option.innerHTML = options[i]
-                option.addEventListener("click", function() {
-                    if (!(interests.includes(this.innerHTML))) {
-                        interests.push(this.innerHTML)
-                    }
-                    else {
-                        interests.pop(this.innerHTML)
-                    }
-
-                    interestsInput.value = interests;
-                })
-
+                option.setAttribute("value", options[i].toLowerCase)
+                option.classList.add("interestBoxes");
                 optionsContainer.appendChild(option)
             }
         }
@@ -182,6 +186,7 @@ function nextPrev(n) {
   // Increase or decrease the current tab by 1:
   currentTab = currentTab + n;
   // if you have reached the end of the form...
+  console.log(currentTab , x.length)
   if (currentTab >= x.length) {
     // ... the form gets submitted:
     document.getElementById("loadingScreen").style.display = "flex";
