@@ -136,3 +136,25 @@ body {
     transform: scale(1.1);
 }
 
+.exportCal {
+    background: transparent;
+    color: white;
+    display: block;
+    margin-left: 10vw;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    border: 2px solid #0084ff;
+    color:#0084ff;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.exportCal:hover {
+    background: #0084ff;
+    border: 2px solid #0084ff;
+    color: white;
+    box-shadow: 1rem .5rem 1rem rgba(0,0,0,.15);
+}
