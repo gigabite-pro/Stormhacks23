@@ -109,8 +109,9 @@
               </svg>
 
 <body>
+
     <div class="col-md-3 text-end">
-        <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+        <div class="dropdown position-fixed top-0 end-0 mb-3 me-3 bd-mode-toggle" style="padding: 20px">
             <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
                     id="bd-theme"
                     type="button"
@@ -145,33 +146,56 @@
             </ul>
           </div>
       </div>
-    <div class="itineraryContainer">
-        <% let day = 1 %>
-        <% let currentDate = data.Itinerary[0].Date %>
-        <p class="dayBox">Day <%= day %> : <%= data.Itinerary[0].Date %></p>
-        <% for( let i = 0; i < data.Itinerary.length; i++ ) { %>
-            <% if (currentDate !== data.Itinerary[i].Date) { %>
-                <% day += 1 %>
-                <p class="dayBox">Day <%= day %> : <%= data.Itinerary[i].Date %></p>
-                <% currentDate = data.Itinerary[i].Date %>
-            <% } %>
-            <div class="activity">
-                <% if (data.Itinerary[i].Activity) { %>
-                    <h1 class="title"><%= data.Itinerary[i].Activity %></h1>
-                <%} else { %>
-                    <h1 class="title"><%= data.Itinerary[i].Location %></h1>
-                <% } %>
+    </header>
+  </div>
 
-                <p><%= data.Itinerary[i].Reviews %></p>
-
-                <ul class="infoUl">
-                    <li class="time"><%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %></li>
-                    <li class="stars">Rating: <%= data.Itinerary[i].Rating %></li>
-                    <li class="cost">Cost: <%= data.Itinerary[i].Cost %></li>
-                </ul>
+    <div class="container py-9 py-lg-11 position-relative z-index-1" style="padding-top: 20px;">
+        <div class="row">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h5 class="mb-4 text-info aos-init aos-animate" data-aos="fade-up">Schedule and Agenda</h5>
+                <div class="nav nav-pills flex-column aos-init aos-animate" id="myTab" role="tablist" data-aos="fade-up">
+                    <% const sortedDays = data.Itinerary.reduce((acc, activity) => {
+                        const dayIndex = acc.findIndex(day => day.date === activity.Date);
+                        if (dayIndex === -1) {
+                            acc.push({ date: activity.Date, activities: [activity] });
+                        } else {
+                            acc[dayIndex].activities.push(activity);
+                        }
+                        return acc;
+                    }, []).sort((a, b) => new Date(a.date) - new Date(b.date));
+                    %>
+                    <% sortedDays.forEach((day, index) => { %>
+                        <button class="nav-link px-4 text-start mb-3 <%= index === 0 ? 'active' : '' %>" id="d<%= index + 1 %>-tab" data-bs-toggle="tab" data-bs-target="#day<%= index + 1 %>" type="button" role="tab" aria-controls="day<%= index + 1 %>" aria-selected="<%= index === 0 ? 'true' : 'false' %>">
+                            <span class="d-block fs-5 fw-bold">Day <%= index + 1 %></span>
+                            <span class="small"><%= day.date %></span>
+                        </button>
+                    <% }); %>
+                </div>
             </div>
-        <% } %>
+            <div class="col-lg-7 col-xl-6">
+                <div data-aos="fade-up" class="tab-content aos-init aos-animate" id="myTabContent">
+                    <% sortedDays.forEach((day, index) => { %>
+                        <div class="tab-pane fade <%= index === 0 ? 'active show' : '' %>" id="day<%= index + 1 %>" role="tabpanel" aria-labelledby="d<%= index + 1 %>-tab">
+                            <ul class="pt-4 list-unstyled mb-0">
+                                <% const sortedActivities = day.activities.sort((a, b) => new Date(a.StartTime) - new Date(b.StartTime));
+                                %>
+                                <% sortedActivities.forEach(activity => { %>
+                                    <li class="d-flex flex-column flex-md-row py-4">
+                                        <span class="flex-shrink-0 width-13x me-md-4 d-block mb-3 mb-md-0 small text-muted"><%= activity.StartTime %> - <%= activity.EndTime %></span>
+                                        <div class="flex-grow-1 ps-4 border-start border-3">
+                                            <h4><%= activity.Activity %></h4>
+                                            <p class="mb-0"><%= activity.Reviews %></p>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
     </div>
+    
 
     <button class="exportCal" onclick="add()">Export Calendar</button>
 
