@@ -116,10 +116,8 @@ router.get('/addToCalendar', (req, res) => {
 })
 
 
-router.post('/ai-chatbot', (req, res) => {
-    console.log("hi")
-    const {message} = req.body
-    console.log(message)
+router.get('/ai-chatbot', (req, res) => {
+    const message = req.query.data
     const prompt = `${message}`
 
     openai.createCompletion({
@@ -128,10 +126,17 @@ router.post('/ai-chatbot', (req, res) => {
         max_tokens: 3000,
         temperature: 0
     }).then(response => {
-        console.log(response.data.choices[0].text)
-        // data = JSON.parse(response.data.choices[0].text)
-        res.redirect('/itinerary')
+        reply = response.data.choices[0].text
+        console.log(reply)
+        res.json({
+            body: reply,
+            status: 'success'
+        })
     }).catch(err => {
+        res.json({
+            body: err,
+            status: 'error'
+        })
         console.log(err)
     })
 })

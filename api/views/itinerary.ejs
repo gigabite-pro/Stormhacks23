@@ -47,16 +47,16 @@
         
         <div class="chatbotContainer" id="chatBot" style="display:none;">
             <div class="chatbotMessages" id="chatbotMessages">
-
+                
             </div>
 
-            <form class="messageInput" action="/itinerary/ai-chatbot" method="POST">
-                <input name="message" placeholder="Is Disneyland fun?"/>
-                <button type="submit">></button>
-            </form>
+            <div class="messageInput">
+                <input name="message" id="chatbotMessage" placeholder="Is Disneyland fun?"/>
+                <button onclick="fetchChatbotResponse()">></button>
+            </div>
         </div>
 
-        <div class="ai-chatbot-open-btn" id="open-chatbot" onclick="displayChatbot()">+</div>
+        <div class="ai-chatbot-open-btn" id="open-chatbot" onclick="displayChatbot()"></div>
     </div>
 </body>
 </html>
@@ -77,6 +77,38 @@
             }).catch(err => console.log(err))
         }
 
+    function displayMessage(message, sender) {
+        const messageContainer = document.createElement("span");
+        const chatbotMessages = document.getElementById("chatbotMessages");
+        messageContainer.innerHTML = message;
+        messageContainer.classList.add("textMessage")
+        // if sender is user
+        if (sender) {
+            messageContainer.style.float = "right";
+            messageContainer.classList.add("userTextMessage")
+        }
+        else {
+            messageContainer.style.float = "left";
+        }
+        chatbotMessages.appendChild(messageContainer);
+    }
+    function fetchChatbotResponse() {
+        const chatbotMessage = document.getElementById("chatbotMessage").value;
+        displayMessage(chatbotMessage, true)
+        document.getElementById("chatbotMessage").value = "";
+
+        // alert(chatbotMessage)
+        fetch(`/itinerary/ai-chatbot?data=${chatbotMessage}`, {
+            method: 'GET'
+        }).then(res => res.json())
+        .then(response => {
+            if(response.status == "success"){
+                displayMessage(response.body, false)
+            } else {
+                alert("Some error occured")
+            }
+        }).catch(err => console.log(err))
+    }
 
     function displayChatbot() {
         const chatBotContainer = document.getElementById("chatBot").style.display;
