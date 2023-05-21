@@ -121,4 +121,25 @@ router.get('/addToCalendar', (req, res) => {
     })
 })
 
+
+router.post('/ai-chatbot', (req, res) => {
+    console.log("hi")
+    const {message} = req.body
+    console.log(message)
+    const prompt = `${message}`
+
+    openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: prompt,
+        max_tokens: 3000,
+        temperature: 0
+    }).then(response => {
+        console.log(response.data.choices[0].text)
+        // data = JSON.parse(response.data.choices[0].text)
+        res.redirect('/itinerary')
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
 module.exports = router;

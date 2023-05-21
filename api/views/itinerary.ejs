@@ -41,9 +41,34 @@
     </div>
 
     <button>Export Calendar</button>
+
+    <div class="ai-chatbot">
+        
+        <div class="chatbotContainer" id="chatBot" style="display:none;">
+            <div class="chatbotMessages" id="chatbotMessages">
+
+            </div>
+
+            <form class="messageInput" action="/itinerary/ai-chatbot" method="POST">
+                <input name="message" placeholder="Is Disneyland fun?"/>
+                <button type="submit">></button>
+            </form>
+        </div>
+
+        <div class="ai-chatbot-open-btn" id="open-chatbot" onclick="displayChatbot()">+</div>
+    </div>
 </body>
 </html>
 
 <script>
+    function displayChatbot() {
+        const chatBotContainer = document.getElementById("chatBot").style.display;
+        if (chatBotContainer === "none") {
+            document.getElementById("chatBot").style.display = "block";
+        }
+        else {
+            document.getElementById("chatBot").style.display = "none";
+        }
+    }
     // console.log(<%= data %>);
 </script>
