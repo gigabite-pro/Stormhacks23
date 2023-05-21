@@ -1,7 +1,7 @@
-# StormHacks 23
+# StormHacks 2023
 
-To run frontend
+To run 
 ```
-cd frontend
-npm start
+cd api
+npm run dev
 ```
