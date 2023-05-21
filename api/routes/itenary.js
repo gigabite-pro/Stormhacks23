@@ -72,7 +72,7 @@ router.get('/', (req, res) => {
             })
         }
    }
-    res.send(data)
+    res.render('itenary', {data: data})
 })
 
 module.exports = router;

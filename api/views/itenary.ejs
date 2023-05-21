@@ -1,43 +1,46 @@
-<style>
-    .activity {
-        background: cyan;
-        border-radius: 20px;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-    .title {
-        font-size: 1.2em;
-        font-weight: bold;
-    }
-</style>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Itinerary</title>
 
-    <link rel="stylesheet" href="../../website/css/itinerary.css">
+    <link rel="stylesheet" href="/itinerary.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="itineraryContainer">
         <% let day = 1 %>
-        <% for( let i = 0; i < data.Itinerary.length-1; i++ ) { %>
-            <% if (data.Itinerary[i].Date == data.Itinerary[i+1].Date) { %>
-                <p>Day <%= day %></p>
+        <% let currentDate = data.Itinerary[0].Date %>
+        <p class="dayBox">Day <%= day %> : <%= data.Itinerary[0].Date %></p>
+        <% for( let i = 0; i < data.Itinerary.length; i++ ) { %>
+            <% if (currentDate !== data.Itinerary[i].Date) { %>
                 <% day += 1 %>
+                <p class="dayBox">Day <%= day %> : <%= data.Itinerary[i].Date %></p>
+                <% currentDate = data.Itinerary[i].Date %>
             <% } %>
             <div class="activity">
-                <h1 class="title"><%= data.Itinerary[i].Activity %> - <%= data.Itinerary[i].Location %></h1>
-                <p><%=   data.Itinerary[i].Reviews %></p>
-                <p><%= data.Itinerary[i].Date %>: <%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %> (<%= data.Itinerary[i].Duration %>)</p>
-                <p>Rating: <%= data.Itinerary[i].Rating %></p>
-                <p>Cost: <%= data.Itinerary[i].Cost %></p>
+                <% if (data.Itinerary[i].Activity) { %>
+                    <h1 class="title"><%= data.Itinerary[i].Activity %></h1>
+                <%} else { %>
+                    <h1 class="title"><%= data.Itinerary[i].Location %></h1>
+                <% } %>
+
+                <p><%= data.Itinerary[i].Reviews %></p>
+
+                <ul class="infoUl">
+                    <li class="time"><%= data.Itinerary[i].StartTime %> - <%= data.Itinerary[i].EndTime %></li>
+                    <li class="stars">Rating: <%= data.Itinerary[i].Rating %></li>
+                    <li class="cost">Cost: <%= data.Itinerary[i].Cost %></li>
+                </ul>
             </div>
         <% } %>
     </div>
+
+    <button>Export Calendar</button>
 </body>
 </html>
 
