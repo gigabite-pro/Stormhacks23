@@ -1,75 +1,55 @@
 const router = require('express').Router();
 const axios = require('axios');
-const qs = require('qs');
-const Users = require('../models/Users');
 const { google } = require('googleapis');
-const {OAuth2} = google.auth
+const Users = require('../models/Users');
+const {data} = require('./itinerary')
 require('dotenv').config()
 
 const redirectUri = process.env.REDIRECT_URI
 
-function getGoogleAuthURL(){
-    const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
-    const options = {
-        redirect_uri : redirectUri,
-        client_id : process.env.GOOGLE_CLIENT_ID,
-        access_type : 'offline',
-        response_type : 'code',
-        scope : 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar',
-        prompt : 'consent'
-    }
-
-     return `${rootUrl}?${qs.stringify(options)}`
-}
-
-function getTokens({code, clientId, clientSecret, redirectUri}){
-    const url = 'https://oauth2.googleapis.com/token'
-    const options = {
-        code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: 'authorization_code'
-    }
-
-    return axios.post(url, qs.stringify(options), {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    }).then((res) => res.data)
-    .catch(err => console.log(err))
-}
-
+const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri
+  );
+  
+  // generate a url that asks permissions for Blogger and Google Calendar scopes
+  const scopes = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/calendar.events'
+  ];
+  
+  const url = oauth2Client.generateAuthUrl({
+    // 'online' (default) or 'offline' (gets refresh_token)
+    access_type: 'offline',
+  
+    // If you only need one scope you can pass it as a string
+    scope: scopes
+  });
 
 
 router.get('/login', (req,res)=>{
     // creating consent screen url
-    res.redirect(getGoogleAuthURL())
+    res.redirect(url)
 })
 
-const OAuth2Client = new OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.REDIRECT_URI
-)
 
 router.get('/callback', async (req, res)=>{
     const code = req.query.code
 
-    // getting access tokens
-    const token = await OAuth2Client.getToken(code);
-
-    console.log(token)
+    const {tokens} = await oauth2Client.getToken(code)
+    oauth2Client.setCredentials(tokens);
 
     // getting user data
-    const googleUser = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${token.tokens.access_token}`,{
+    const googleUser = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${tokens.access_token}`,{
         headers : {
-            Authorization: `Bearer ${token.tokens.id_token}`
+            Authorization: `Bearer ${tokens.id_token}`
         }
     }).then(res => res.data)
     .catch(err => console.log(err))
 
-    
     Users.findOne({email: googleUser.email})
     .then((doc)=>{
         if(doc){
@@ -82,8 +62,6 @@ router.get('/callback', async (req, res)=>{
                 name: googleUser.name,
                 email: googleUser.email,
                 pfp: googleUser.picture,
-                access_token: token.tokens.access_token,
-                refresh_token: token.tokens.refresh_token
             })
 
             newUser.save()
@@ -103,4 +81,46 @@ router.get('/logout', (req,res)=>{
     res.redirect('/')
 })
 
-module.exports = router, OAuth2Client;
+router.get('/addToCalendar', (req, res) => {
+    const calendar = google.calendar({version: 'v3', auth: process.env.GOOGLE_CALENDAR_API_KEY})
+
+    for (i = 0; i < data.Itinerary.length; i++) {
+        const event = {
+            summary: data.Itinerary[i].Activity,
+            location: data.Itinerary[i].Location,
+            description: data.Itinerary[i].Reviews,
+            start: {
+                dateTime: moment(data.Itinerary[i].Date + " " + data.Itinerary[i].StartTime, 'YYYY-MM-DD hh:mm A').toISOString(),
+                timeZone: 'America/Los_Angeles',
+            },
+            end: {
+                dateTime: moment(data.Itinerary[i].Date + " " + data.Itinerary[i].EndTime, 'YYYY-MM-DD hh:mm A').toISOString(),
+                timeZone: 'America/Los_Angeles',
+            },
+            reminders: {
+                'useDefault': false,
+                'overrides': [
+                    {'method': 'email', 'minutes': 24 * 60},
+                    {'method': 'popup', 'minutes': 10},
+                ]
+            }
+        }
+
+        calendar.events.insert({
+            calendarId: 'primary',
+            resource: event,
+            }, function(err, event) {
+            if (err) {
+                console.log('There was an error contacting the Calendar service: ' + err);
+                res.json({
+                status: "error",
+                })
+            }
+            res.json({
+                status: "success",
+            })
+        });
+    }
+})
+
+module.exports = router;

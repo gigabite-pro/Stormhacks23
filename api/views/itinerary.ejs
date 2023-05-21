@@ -39,11 +39,20 @@
             </div>
         <% } %>
     </div>
-
-    <button>Export Calendar</button>
+    <button onclick="add()">Export Calendar</button>
 </body>
 </html>
 
 <script>
-    // console.log(<%= data %>);
+    function add() {
+        fetch('/auth/addToCalendar', {method: 'GET'})
+        .then(res => res.json)
+        .then(data => {
+            if(data.status == "success") {
+                alert("Added to Calendar")
+            } else {
+                alert("Some error occured")
+            }
+        }).catch(err => console.log(err))
+    }
 </script>
