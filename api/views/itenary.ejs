@@ -19,14 +19,14 @@
 </head>
 <body>
     <div class="itineraryContainer">
-        <% for(var i=0; i< data.itinerary.length; i++) {%>
+        <% for(var i=0; i< data.Itinerary.length; i++) {%>
             <div class="activity">
-                <h2><%= data.itinerary[i].activity %></h2>
-                <p><%= data.itinerary[i].location %></p>
-                <p><%=   data.itinerary[i].reviews %></p>
-                <p><%= data.itinerary[i].date %>: <%= data.itinerary[i].startTime %> - <%= data.itinerary[i].endTime %> (<%= data.itinerary[i].duration %>)</p>
-                <p>Rating: <%= data.itinerary[i].rating %></p>
-                <p>Cost: <%= data.itinerary[i].cost %></p>
+                <h2><%= data.Itinerary[i].activity %></h2>
+                <p><%= data.Itinerary[i].location %></p>
+                <p><%=   data.Itinerary[i].reviews %></p>
+                <p><%= data.Itinerary[i].date %>: <%= data.Itinerary[i].startTime %> - <%= data.Itinerary[i].endTime %> (<%= data.Itinerary[i].duration %>)</p>
+                <p>Rating: <%= data.Itinerary[i].rating %></p>
+                <p>Cost: <%= data.Itinerary[i].cost %></p>
             </div>
          <% } %>
         

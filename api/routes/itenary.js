@@ -29,7 +29,7 @@ router.post('/activities', (req, res) => {
                 "Duration": "4 hours",
                 "Cost": "$0",
                 "Rating": "4.5/5",
-                "Reviews": "Beautiful park with lots of activities to do",
+                "Reviews": "Beautiful park with lots of activities to do"
             }
         ]
     }`
