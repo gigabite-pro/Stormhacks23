@@ -43,12 +43,12 @@
             <div class="question">
                 <label>What are everyone's interests?</label><br>
                 <select id="interests" name="interests" class="custom-select" multiple>
-                    <option value="art">Art</option>
+                    <!-- <option value="art">Art</option>
                     <option value="eating">Eating</option>
                     <option value="shopping">Shopping</option>
                     <option value="sports">Sports</option>
                     <option value="comic">Comics</option>
-                    <option value="reading">Reading</option>
+                    <option value="reading">Reading</option> -->
                   </select>
                 <!-- <input id="interests" class="inputForm" type="type" required></input><br> -->
                 
@@ -108,26 +108,17 @@
         interests = []
         function makeInterestsOption() {
             const interestsInput = document.getElementById("interests");
-            const optionsContainer = document.getElementById("options");
+            const optionsContainer = document.getElementById("interests");
             const options = ["Art", "Eating", " Shopping", "Sports", "Comics", "Reading", "History", "Sightseeing", "Photography", "Music", "Technology", "Education", "Outdoor Activities", "Indoor Activities"]
             for (let i = 0; i < options.length; i++) {
-                option = document.createElement('li');
+                option = document.createElement('option');
                 option.innerHTML = options[i]
-                option.addEventListener("click", function() {
-                    if (!(interests.includes(this.innerHTML))) {
-                        interests.push(this.innerHTML)
-                    }
-                    else {
-                        interests.pop(this.innerHTML)
-                    }
-
-                    interestsInput.value = interests;
-                })
-
+                option.setAttribute("value", options[i].toLowerCase)
+                option.classList.add("interestBoxes");
                 optionsContainer.appendChild(option)
             }
         }
-        // makeInterestsOption()
+        makeInterestsOption()
 
         function generateInputJSON() {
             const answers = {

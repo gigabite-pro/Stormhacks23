@@ -159,6 +159,7 @@ button {
     border-radius: 3px;
     background: #eeeeee;
     transition: 0.1s;
+    margin: 5px;
   }
   
   .select__item--selected {
@@ -235,4 +236,8 @@ button {
     font-weight: bold;
     margin-top: 2vw;
     font-family: 'Sofia-Pro';
+}
+
+.interestBoxes {
+  margin: 5px;
 }
