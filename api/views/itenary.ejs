@@ -7,6 +7,20 @@
     <title>Document</title>
 </head>
 <body>
-    <%= data %>
+    <div class="itineraryContainer">
+        <% for(var i=0; i< data.itinerary.length; i++) {%>
+            <div class="activity">
+                <h2><%= data.itinerary[i].activity %></h2>
+                <p>data.itinerary[i].location</p>
+                <p>data.itinerary[i].startTime</p>
+            </div>
+         <% } %>
+        
+        <!-- <%= data %> -->
+    </div>
 </body>
 </html>
+
+<script>
+    // console.log(<%= data %>);
+</script>
