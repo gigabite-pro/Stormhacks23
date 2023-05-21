@@ -34,6 +34,7 @@ mongoose.connect(process.env.MONGO_URI,{
 // Routes
 app.use('/auth', authRoute);
 app.use('/itenary', itenaryRoute);
+app.use(express.static('public'))
 
 // Home Route
 app.get('/', (req, res) => {

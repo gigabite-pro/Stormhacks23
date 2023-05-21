@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="itineraryContainer">
+        <% for(var i=0; i< data.itinerary.length; i++) {%>
+            <div class="activity">
+                <h2><%= data.itinerary[i].activity %></h2>
+                <p>data.itinerary[i].location</p>
+                <p>data.itinerary[i].startTime</p>
+            </div>
+         <% } %>
+        
+        <!-- <%= data %> -->
+    </div>
+</body>
+</html>
+
+<script>
+    // console.log(<%= data %>);
+</script>
