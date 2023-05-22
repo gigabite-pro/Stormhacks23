@@ -133,7 +133,7 @@ router.get('/saveLink', isAuthorized, (req, res) => {
     }).catch(err => console.log(err))
 })
 
-router.get('/allLinks', isAuthorized, (req, res) => {
+router.get('/allLinks', (req, res) => {
     Links.find({userEmail: req.session.user.email})
     .then(docs => {
         res.render('allLinks', {links: docs})

@@ -41,7 +41,7 @@
             color: white;
         }
 
-        tr:hover{
+        #rows:hover{
             cursor: pointer;
         }
 
@@ -68,7 +68,7 @@
                 </thead>
                 <tbody>
                     <% for(var i=0; i < links.length; i++) { %>
-                            <tr onclick="open('<%= links[i].shortid %>')">
+                            <tr id="rows" data-id = <%= links[i].shortid %>>
                                 <th class="text-center"><%= i+1 %></th>
                                 <td colspan="2" class="text-center"><%= links[i].shortid %></td>
                                 <td class="text-center"><%= links[i].date %></td>
@@ -80,8 +80,14 @@
     </div>
 </body>
 <script>
-    function open(id){
-        window.location.href = `http://localhost:3000/itinerary/getLink/${id}`;
+    window.onload = () => {
+        const rows = document.querySelectorAll('#rows');
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const id = row.getAttribute('data-id');
+                window.location.href = `http://localhost:3000/itinerary/getLink/${id}`
+            })
+        })
     }
 </script>
 </html>
